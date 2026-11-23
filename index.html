@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Descarga de Documentos PDF</title>
+  <style>
+    /* CSS clásico compatible con Safari antiguo (iOS 9 / 10 / 11 / 12) */
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      -webkit-text-size-adjust: 100%;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 22px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: #93c5fd;
+    }
+    .pdf-row {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .pdf-title {
+      float: left;
+      width: 60%;
+      font-size: 15px;
+      font-weight: bold;
+      padding-top: 8px;
+      word-wrap: break-word;
+    }
+    .pdf-actions {
+      float: right;
+      text-align: right;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-green {
+      background-color: #10b981;
+    }
+    .btn-blue {
+      background-color: #3b82f6;
+    }
+    .help-text {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    input[type="file"] {
+      display: block;
+      margin: 12px 0;
+      font-size: 15px;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>📄 Documentos PDF</h1>
+
+    <!-- SECCIÓN 1: PDFs alojados en tu repositorio de GitHub -->
+    <div class="card">
+      <h2>Archivos disponibles para descargar</h2>
+
+      <!-- ARCHIVO 1: Cambia "documento1.pdf" por el nombre real de tu archivo en GitHub -->
+      <div class="pdf-row">
+        <div class="pdf-title">Documento Principal (PDF)</div>
+        <div class="pdf-actions">
+          <a href="documento1.pdf" download="documento1.pdf" target="_blank" class="btn btn-green">
+            ⬇ Abrir / Bajar
+          </a>
+        </div>
+      </div>
+
+      <!-- ARCHIVO 2: Duplica este bloque si subes más PDFs -->
+      <div class="pdf-row">
+        <div class="pdf-title">Manual / Anexo (PDF)</div>
+        <div class="pdf-actions">
+          <a href="documento2.pdf" download="documento2.pdf" target="_blank" class="btn btn-green">
+            ⬇ Abrir / Bajar
+          </a>
+        </div>
+      </div>
+
+      <p class="help-text">
+        <strong>Tip para Safari antiguo en iPad:</strong> Si al tocar el botón se abre el PDF en pantalla completa, toca en el centro de la pantalla y elige <strong>"Abrir en..."</strong> (o el ícono de compartir arriba a la derecha) para guardarlo en iBooks o Archivos.
+      </p>
+    </div>
+
+    <!-- SECCIÓN 2: Cargar un PDF local desde la memoria de la tablet -->
+    <div class="card">
+      <h2>¿Tienes un PDF guardado en la tablet y quieres bajarlo/abrirlo?</h2>
+      <input type="file" id="pdfInput" accept=".pdf,application/pdf">
+      <div id="localResult"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript ES5 puro (100% compatible con versiones viejas de Safari) -->
+  <script type="text/javascript">
+    var pdfInput = document.getElementById('pdfInput');
+    var localResult = document.getElementById('localResult');
+
+    pdfInput.onchange = function() {
+      var files = pdfInput.files;
+      if (!files || files.length === 0) {
+        return;
+      }
+
+      var file = files[0];
+      var reader = new FileReader();
+
+      localResult.innerHTML = '<p class="help-text">Procesando archivo...</p>';
+
+      reader.onload = function(e) {
+        var dataUrl = e.target.result;
+        localResult.innerHTML =
+          '<div class="pdf-row" style="margin-top:12px;">' +
+            '<div class="pdf-title">' + file.name + '</div>' +
+            '<div class="pdf-actions">' +
+              '<a href="' + dataUrl + '" download="' + file.name + '" target="_blank" class="btn btn-blue">⬇ Descargar</a>' +
+            '</div>' +
+          '</div>';
+      };
+
+      reader.readAsDataURL(file);
+    };
+  </script>
+
+</body>
+</html>
